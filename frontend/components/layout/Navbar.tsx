@@ -263,6 +263,9 @@ export default function Navbar() {
                   <Link href="/certificates" onClick={() => setMenuOpen(false)} className="text-sm text-cyan-200">
                     My Certificates
                   </Link>
+                  <Link href="/account" onClick={() => setMenuOpen(false)} className="text-sm text-cyan-200">
+                    Account Settings
+                  </Link>
                   {isAdmin && (
                     <Link href="/admin" onClick={() => setMenuOpen(false)} className="text-sm text-cyan-300">
                       Admin Panel

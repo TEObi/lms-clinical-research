@@ -117,13 +117,17 @@ export default function Footer() {
               ICH GCP aligned, MHRA compliant.
             </p>
             <div className="flex gap-3">
-              <a href="#" aria-label="LinkedIn"
+              <a href="https://www.linkedin.com/company/clinical-research-nexus/" target="_blank" aria-label="LinkedIn"
                 className="w-8 h-8 rounded-full bg-primary-800 hover:bg-primary-700 flex items-center justify-center text-primary-300 hover:text-white transition-colors text-xs">
                 in
               </a>
               <a href="#" aria-label="Twitter/X"
                 className="w-8 h-8 rounded-full bg-primary-800 hover:bg-primary-700 flex items-center justify-center text-primary-300 hover:text-white transition-colors text-xs">
                 𝕏
+              </a>
+              <a href="#" aria-label="Facebook"
+                className="w-8 h-8 rounded-full bg-primary-800 hover:bg-primary-700 flex items-center justify-center text-primary-300 hover:text-white transition-colors text-xs">
+                fb
               </a>
               <a href="#" aria-label="YouTube"
                 className="w-8 h-8 rounded-full bg-primary-800 hover:bg-primary-700 flex items-center justify-center text-primary-300 hover:text-white transition-colors text-xs">

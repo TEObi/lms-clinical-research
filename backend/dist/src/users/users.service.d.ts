@@ -34,6 +34,8 @@ export declare class UsersService {
         lastName?: string;
         country?: string;
         timezone?: string;
+        currentPassword?: string;
+        newPassword?: string;
     }): Promise<{
         id: string;
         email: string;
