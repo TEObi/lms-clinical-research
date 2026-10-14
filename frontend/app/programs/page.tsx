@@ -2,6 +2,8 @@ import Link from 'next/link';
 
 const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 
+export const dynamic = 'force-dynamic';
+
 async function getPrograms() {
   try {
     const res = await fetch(`${API}/api/v1/programs`, { next: { revalidate: 300 } });

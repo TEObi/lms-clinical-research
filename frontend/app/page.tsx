@@ -1,14 +1,13 @@
 /**
  * Homepage — Clinical Research Nexus
- * Course section styled to match Viares layout:
- * - Large image thumbnail with title overlay + badge
- * - Description + meta row (modules · activities · students)
- * - Gold "View more" CTA button
  */
 
 import Link from 'next/link';
 import Image from 'next/image';
 import ViewMoreButton from '@/components/course/ViewMoreButton';
+
+// Render at request time — never attempt static generation at build
+export const dynamic = 'force-dynamic';
 
 const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 

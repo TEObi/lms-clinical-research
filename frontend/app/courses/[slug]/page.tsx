@@ -3,6 +3,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import EnrollButton from '@/components/course/EnrollButton';
 
+export const dynamic = 'force-dynamic';
+
 const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 
 async function getCourse(slug: string) {
