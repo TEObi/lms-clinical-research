@@ -66,8 +66,8 @@ export default function Navbar() {
 
   return (
     <header
-      className="sticky top-0 z-50 shadow-lg"
-      style={{ height: '110px', backgroundColor: '#055d69' }}
+      className="sticky top-0 z-50 shadow-lg h-[125px] md:h-[110px]"
+      style={{ backgroundColor: '#055d69' }}
     >
       {/* Promo bar */}
       <div className="bg-cyan-700 text-white text-center text-xs py-1.5 px-4 font-medium">
@@ -230,65 +230,136 @@ export default function Navbar() {
           </div>
 
         </div>
+      </div>
 
-        {/* Mobile dropdown menu */}
-        {menuOpen && (
-          <div className="md:hidden border-t border-white/10 py-3 space-y-1 pb-4">
-            {/* About section */}
-            <p className="px-4 pt-1 pb-0.5 text-[10px] font-bold text-cyan-500 uppercase tracking-widest">About</p>
-            {ABOUT_LINKS.map((link) => (
-              <Link key={link.href} href={link.href} onClick={() => setMenuOpen(false)}
-                className="block px-4 py-2.5 text-sm text-cyan-200 hover:text-white hover:bg-white/10 rounded-lg">
-                {link.label}
-              </Link>
-            ))}
-            <div className="my-1 border-t border-white/10" />
-            {[
-              { href: '/courses',             label: 'All Courses' },
-              { href: '/programs',            label: 'Programmes' },
-              { href: '/library',             label: 'Library' },
-              { href: '/certificates/verify', label: 'Verify Certificate' },
-            ].map((link) => (
-              <Link key={link.href} href={link.href} onClick={() => setMenuOpen(false)}
-                className="block px-4 py-2.5 text-sm text-cyan-200 hover:text-white hover:bg-white/10 rounded-lg">
-                {link.label}
-              </Link>
-            ))}
-            <div className="pt-3 border-t border-white/10 flex flex-col gap-2 px-4">
-              {mounted && user ? (
+      {/* ── Mobile full-screen overlay menu ── */}
+      {menuOpen && (
+        <>
+          {/* Backdrop — clicks outside the drawer close it */}
+          <div
+            className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm md:hidden"
+            onClick={() => setMenuOpen(false)}
+            aria-hidden="true"
+          />
+
+          {/* Drawer panel — slides in from the left */}
+          <div className="fixed top-0 left-0 h-full w-72 max-w-[85vw] z-50 md:hidden flex flex-col"
+            style={{ backgroundColor: '#055d69' }}
+          >
+            {/* Drawer header */}
+            <div className="flex items-center justify-between px-5 py-4 border-b border-white/10"
+              style={{ backgroundColor: '#044f5a' }}>
+              <Logo variant="navbar" href="/" />
+              <button
+                onClick={() => setMenuOpen(false)}
+                className="text-cyan-200 hover:text-white p-1.5 rounded-lg hover:bg-white/10 transition-colors"
+                aria-label="Close menu"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Scrollable nav links */}
+            <nav className="flex-1 overflow-y-auto px-3 py-4 space-y-1">
+
+              {/* About section */}
+              <p className="px-3 pb-1 text-[10px] font-bold text-cyan-500 uppercase tracking-widest">About</p>
+              {ABOUT_LINKS.map((link) => (
+                <Link key={link.href} href={link.href} onClick={() => setMenuOpen(false)}
+                  className="flex items-center gap-3 px-3 py-3 text-sm text-cyan-200 hover:text-white hover:bg-white/10 rounded-lg transition-colors">
+                  {link.label}
+                </Link>
+              ))}
+
+              <div className="my-2 border-t border-white/10" />
+
+              {/* Main nav links */}
+              <p className="px-3 pb-1 text-[10px] font-bold text-cyan-500 uppercase tracking-widest">Browse</p>
+              {[
+                { href: '/courses',             label: 'All Courses',        icon: '📚' },
+                { href: '/programs',            label: 'Programmes',         icon: '🎓' },
+                { href: '/library',             label: 'Library',            icon: '📖' },
+                { href: '/certificates/verify', label: 'Verify Certificate', icon: '✅' },
+              ].map((link) => (
+                <Link key={link.href} href={link.href} onClick={() => setMenuOpen(false)}
+                  className={`flex items-center gap-3 px-3 py-3 text-sm rounded-lg transition-colors ${
+                    pathname === link.href || pathname?.startsWith(link.href + '/')
+                      ? 'text-white bg-white/15 font-semibold'
+                      : 'text-cyan-200 hover:text-white hover:bg-white/10'
+                  }`}>
+                  <span className="text-base">{link.icon}</span>
+                  {link.label}
+                </Link>
+              ))}
+
+              {/* Account section */}
+              {mounted && (
                 <>
-                  <Link href="/dashboard" onClick={() => setMenuOpen(false)} className="text-sm text-cyan-200">
-                    My Dashboard
-                  </Link>
-                  <Link href="/certificates" onClick={() => setMenuOpen(false)} className="text-sm text-cyan-200">
-                    My Certificates
-                  </Link>
-                  <Link href="/account" onClick={() => setMenuOpen(false)} className="text-sm text-cyan-200">
-                    Account Settings
-                  </Link>
-                  {isAdmin && (
-                    <Link href="/admin" onClick={() => setMenuOpen(false)} className="text-sm text-cyan-300">
-                      Admin Panel
-                    </Link>
-                  )}
-                  <button onClick={logout} className="text-sm text-left text-cyan-400">Sign out</button>
+                  <div className="my-2 border-t border-white/10" />
+                  <p className="px-3 pb-1 text-[10px] font-bold text-cyan-500 uppercase tracking-widest">Account</p>
+
+                  {user ? (
+                    <>
+                      <div className="px-3 py-2 mb-1">
+                        <p className="text-xs text-cyan-400">Signed in as</p>
+                        <p className="text-sm text-white font-semibold">{user.firstName}</p>
+                      </div>
+                      {[
+                        { href: '/dashboard',    label: 'My Dashboard',    icon: '🏠' },
+                        { href: '/certificates', label: 'My Certificates', icon: '🏅' },
+                        { href: '/account',      label: 'Account Settings', icon: '⚙️' },
+                      ].map((link) => (
+                        <Link key={link.href} href={link.href} onClick={() => setMenuOpen(false)}
+                          className={`flex items-center gap-3 px-3 py-3 text-sm rounded-lg transition-colors ${
+                            pathname === link.href
+                              ? 'text-white bg-white/15 font-semibold'
+                              : 'text-cyan-200 hover:text-white hover:bg-white/10'
+                          }`}>
+                          <span className="text-base">{link.icon}</span>
+                          {link.label}
+                        </Link>
+                      ))}
+                      {isAdmin && (
+                        <Link href="/admin" onClick={() => setMenuOpen(false)}
+                          className="flex items-center gap-3 px-3 py-3 text-sm text-cyan-300 hover:text-white hover:bg-white/10 rounded-lg transition-colors">
+                          <span className="text-base">🔧</span>
+                          Admin Panel
+                        </Link>
+                      )}
+                    </>
+                  ) : null}
                 </>
+              )}
+            </nav>
+
+            {/* Drawer footer — auth buttons */}
+            <div className="px-4 py-4 border-t border-white/10 space-y-2"
+              style={{ backgroundColor: '#044f5a' }}>
+              {mounted && user ? (
+                <button
+                  onClick={() => { logout(); setMenuOpen(false); }}
+                  className="w-full py-2.5 text-sm text-center text-cyan-200 hover:text-white border border-white/20 hover:border-white/40 rounded-lg transition-colors"
+                >
+                  Sign out
+                </button>
               ) : (
                 <>
                   <Link href="/login" onClick={() => setMenuOpen(false)}
-                    className="block text-center py-2 text-sm text-cyan-200 border border-white/20 rounded-lg">
+                    className="block w-full py-2.5 text-sm text-center text-cyan-200 border border-white/20 rounded-lg hover:bg-white/10 transition-colors">
                     Login
                   </Link>
                   <Link href="/register" onClick={() => setMenuOpen(false)}
-                    className="block text-center py-2 text-sm bg-cyan-500 text-white rounded-lg font-semibold">
+                    className="block w-full py-2.5 text-sm text-center bg-cyan-500 hover:bg-cyan-400 text-white rounded-lg font-semibold transition-colors">
                     Enrol Now
                   </Link>
                 </>
               )}
             </div>
           </div>
-        )}
-      </div>
+        </>
+      )}
     </header>
   );
 }
