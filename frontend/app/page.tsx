@@ -8,6 +8,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import ViewMoreButton from '@/components/course/ViewMoreButton';
 
 const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 
@@ -235,10 +236,7 @@ export default async function HomePage() {
                         </div>
 
                         {/* CTA */}
-                        <Link href={`/courses/${course.slug}`}
-                          className="block w-full text-center bg-[#c9a84c] hover:bg-[#b8973b] text-white text-sm font-semibold py-2.5 rounded transition-colors mt-auto">
-                          View more
-                        </Link>
+                        <ViewMoreButton href={`/courses/${course.slug}`} />
                       </div>
                     </div>
                   );
